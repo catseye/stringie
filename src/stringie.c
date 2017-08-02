@@ -2,6 +2,7 @@
  * stringie.c -- a brain-freezingly pedantic implementation of Underload in C
  * (with all the limitations that that implies)
  * Chris Pressey, September 2010
+ * Bug fix, August 2017: avoid memory overrun in (). Thanks to @stasoid for finding and suggesting fix.
  * This work is in the public domain.
  */
 
@@ -133,7 +134,8 @@ void run(char *program)
               {
                 int level = 0;
                 int j = 0;
-                char *t = malloc(256);
+                int size = 256;
+                char *t = malloc(size);
 
                 i++;
                 level++;
@@ -145,6 +147,10 @@ void run(char *program)
                     if (level > 0) {
                         t[j] = program[i];
                         j++;
+                        if (j >= size) {
+                            size *= 2;
+                            t = realloc(t, size);
+                        }
                     }
                     i++;
                 }
