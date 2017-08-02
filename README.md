@@ -3,7 +3,7 @@ stringie
 
 This is the distribution for "stringie", an implementation of [Underload][] in ANSI C.
 
-[Underload]: esolangs.org/wiki/Underload
+[Underload]: http://esolangs.org/wiki/Underload
 
 History
 -------
