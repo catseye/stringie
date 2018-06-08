@@ -35,6 +35,17 @@ Usage
 From this we can see that the Underload program to be interpreted is passed
 directly in the first command-line argument to the executable.
 
+Included materials
+------------------
+
+This distribution also contains a description of the Underload language
+in the `doc` directory, and a collection of example programs in the `eg`
+directory.  These were taken from public-domain sources.
+
+To run the interpreter on one of the example programs, you can use backticks:
+
+    ./bin/stringie `cat eg/hello.ul`
+
 License
 -------
 
