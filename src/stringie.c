@@ -17,6 +17,13 @@ struct stack {
 
 void run(char *);
 
+char *strdupe(const char *s)
+{
+    char *t = malloc(strlen(s) + 1);
+    strcpy(t, s);
+    return t;
+}
+
 char *pop(void)
 {
     char *r;
@@ -41,7 +48,7 @@ void dup(void)
 {
     char *e, *f;
     e = pop();
-    f = strdup(e);
+    f = strdupe(e);
     push(e);
     push(f);
 }
@@ -167,7 +174,7 @@ void run(char *program)
 
 int main(int argc, char **argv)
 {
-    char *program = strdup(argv[1]);
+    char *program = strdupe(argv[1]);
     root = NULL;
     run(program);
     exit(0);
