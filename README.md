@@ -35,3 +35,9 @@ License
 
 The contents of this repository are in the public domain.  See [UNLICENSE](UNLICENSE)
 for more information.
+
+Acknowledgements
+----------------
+
+Thanks to [stasoid](https://github.com/stasoid) for finding, and describing a fix
+for, [a heap-corrupting bug](https://github.com/catseye/Dipple/issues/2).
