@@ -47,10 +47,6 @@ This distribution also contains a description of the Underload language
 in the `doc` directory, and a collection of example programs in the `eg`
 directory.  These were taken from public-domain sources.
 
-To run the interpreter on one of the example programs, you can use backticks:
-
-    ./bin/stringie `cat eg/hello.ul`
-
 License
 -------
 
