@@ -172,9 +172,53 @@ void run(char *program)
     free(program);
 }
 
+char *readfile(FILE *f)
+{
+    char chunk[256];
+    char *buffer;
+    int size = 256;
+    int len = 0;
+    int n;
+
+    buffer = malloc(size);
+
+    n = fread(chunk, 1, 256, f);
+    while (n > 0) {
+        if (len + n > size) {
+            size *= 2;
+            buffer = realloc(buffer, size);
+        }
+        memcpy(buffer + len, chunk, n);
+        len += n;
+        n = fread(chunk, 256, 1, f);
+    }
+
+    /* NUL-terminate the buffer; but first, make sure the NUL can fit! */
+    if (len + 1 > size) {
+        size *= 2;
+        buffer = realloc(buffer, size);
+    }
+    buffer[len + 1] = '\0';
+
+    return buffer;
+}
+
 int main(int argc, char **argv)
 {
-    char *program = strdupe(argv[1]);
+    char *program;
+    FILE *f;
+
+    if (argc >= 1) {
+        if (!strcmp(argv[1], "from") && argc >= 2) {
+            if ((f = fopen(argv[2], "r")) == NULL) {
+                exit(1);
+            }
+            program = readfile(f);
+            fclose(f);
+        } else {
+            program = strdupe(argv[1]);
+        }
+    }
     root = NULL;
     run(program);
     exit(0);
