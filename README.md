@@ -38,7 +38,7 @@ directly in the first command-line argument to the executable.
 However, there is also a form by which the Underload program can be read from
 a file:
 
-    ./bin/stringie from example.ul
+    ./bin/stringie from eg/hello.ul
 
 Included materials
 ------------------
