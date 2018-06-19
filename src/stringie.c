@@ -2,7 +2,8 @@
  * stringie.c -- a brain-freezingly pedantic implementation of Underload in C
  * (with all the limitations that that implies)
  * Chris Pressey, September 2010
- * Bug fix, August 2017: avoid memory overrun in (). Thanks to @stasoid for finding and suggesting fix.
+ * August 2017: bug fix to avoid memory overrun in (). Thanks to @stasoid for finding and suggesting fix.
+ * Summer 2018: own implementation of strdup to avoid warnings; ability to read from file; AUTOFLUSH; 1.0.
  * This work is in the public domain.
  */
 
@@ -16,6 +17,13 @@ struct stack {
 } *root;
 
 void run(char *);
+
+char *strdupe(const char *s)
+{
+    char *t = malloc(strlen(s) + 1);
+    strcpy(t, s);
+    return t;
+}
 
 char *pop(void)
 {
@@ -41,7 +49,7 @@ void dup(void)
 {
     char *e, *f;
     e = pop();
-    f = strdup(e);
+    f = strdupe(e);
     push(e);
     push(f);
 }
@@ -90,6 +98,9 @@ void output(void)
     char *e;
     e = pop();
     printf("%s", e);
+#ifdef AUTOFLUSH
+    fflush(stdout);
+#endif
     free(e);
 }
 
@@ -165,9 +176,53 @@ void run(char *program)
     free(program);
 }
 
+char *readfile(FILE *f)
+{
+    char chunk[256];
+    char *buffer;
+    int size = 256;
+    int len = 0;
+    int n;
+
+    buffer = malloc(size);
+
+    n = fread(chunk, 1, 256, f);
+    while (n > 0) {
+        if (len + n > size) {
+            size *= 2;
+            buffer = realloc(buffer, size);
+        }
+        memcpy(buffer + len, chunk, n);
+        len += n;
+        n = fread(chunk, 256, 1, f);
+    }
+
+    /* NUL-terminate the buffer; but first, make sure the NUL can fit! */
+    if (len + 1 > size) {
+        size *= 2;
+        buffer = realloc(buffer, size);
+    }
+    buffer[len + 1] = '\0';
+
+    return buffer;
+}
+
 int main(int argc, char **argv)
 {
-    char *program = strdup(argv[1]);
+    char *program;
+    FILE *f;
+
+    if (argc >= 1) {
+        if (!strcmp(argv[1], "from") && argc >= 2) {
+            if ((f = fopen(argv[2], "r")) == NULL) {
+                exit(1);
+            }
+            program = readfile(f);
+            fclose(f);
+        } else {
+            program = strdupe(argv[1]);
+        }
+    }
     root = NULL;
     run(program);
     exit(0);

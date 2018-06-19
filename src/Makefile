@@ -29,7 +29,6 @@ OBJS=	stringie${O}
 all: ${PROG}${EXE}
 
 ${PROG}${EXE}: $(OBJS)
-	mkdir -p ../bin/
 	$(CC) $(OBJS) -o ${PROG} $(LIBS)
 
 stringie${O}: stringie.c
