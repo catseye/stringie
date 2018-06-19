@@ -2,7 +2,8 @@
  * stringie.c -- a brain-freezingly pedantic implementation of Underload in C
  * (with all the limitations that that implies)
  * Chris Pressey, September 2010
- * Bug fix, August 2017: avoid memory overrun in (). Thanks to @stasoid for finding and suggesting fix.
+ * August 2017: bug fix to avoid memory overrun in (). Thanks to @stasoid for finding and suggesting fix.
+ * Summer 2018: own implementation of strdup to avoid warnings; ability to read from file; AUTOFLUSH; 1.0.
  * This work is in the public domain.
  */
 
@@ -97,6 +98,9 @@ void output(void)
     char *e;
     e = pop();
     printf("%s", e);
+#ifdef AUTOFLUSH
+    fflush(stdout);
+#endif
     free(e);
 }
 

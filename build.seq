@@ -7,4 +7,4 @@
 ;
 ; or you can simply type the following commands into the shell:
 ;
-dcc src/stringie.c -o bin/stringie
+dcc -DAUTOFLUSH src/stringie.c -o bin/stringie
