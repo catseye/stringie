@@ -68,5 +68,5 @@ Example programs
 (The null program is also a quine. This program is more stack-based than
 functional.)
 
-[HTML Underload specification]: https://cdn.rawgit.com/graue/esofiles/7ca16941/underload/underload.html
+[HTML Underload specification]: https://github.com/graue/esofiles/blob/master/underload/underload.html
 [The Esoteric File Archive]: https://esolangs.org/wiki/The_Esoteric_File_Archive
