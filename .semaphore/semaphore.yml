@@ -1,0 +1,16 @@
+# For more C information and examples, see
+# https://docs.semaphoreci.com/article/95-language-c
+version: v1.0
+name: Hello Semaphore
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: C example
+    task:
+      jobs:
+      - name: Compile and run C code
+        commands:
+          - (cd src && make)
+          - ./bin/stringie from eg/hello.ul
