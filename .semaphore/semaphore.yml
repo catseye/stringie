@@ -12,5 +12,6 @@ blocks:
       jobs:
       - name: Compile and run C code
         commands:
+          - checkout
           - (cd src && make)
           - ./bin/stringie from eg/hello.ul
